@@ -1,6 +1,4 @@
 @startuml Helpa on Diagram
-' 契約リクエストの結びつきがわからない（契約と結びつく？）
-
 
 package "メンター募集" {
   object メンター募集 {
@@ -120,6 +118,7 @@ end note
 package "契約リクエスト" {
   object 契約リクエスト {
     リクエストID
+    プランID
     ユーザID
   }
 }
