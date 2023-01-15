@@ -8,13 +8,17 @@ services:
       dockerfile: ./Dockerfile
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
-      TZ: ${TZ}
+      MYSQL_ROOT_PASSWORD: secrets
+      MYSQL_DATABASE: helpa
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: secrets
+      TZ: Asia/Tokyo
       LANG: ja_JP.UTF-8
     ports:
-        - ${DB_PORT}:3306
+        - 3306:3306
     volumes:
+        - db-store:/var/lib/mysql
         - ./my.cnf:/etc/mysql/conf.d/my.cnf
+
+volumes:
+  db-store:
