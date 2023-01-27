@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-    router := NewRouter()
+    router := controllers.NewRouter()
 
-    router.Logger.Fatal(router.Start(":80"))
+    router.Logger.Fatal(router.Start(":8080"))
 }
