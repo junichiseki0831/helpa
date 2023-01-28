@@ -1,13 +1,13 @@
 package controllers
 
 import (
-	"github.com/labstack/echo/v4"
+	"github.com/gin-gonic/gin"
 )
 
-func NewRouter() *echo.Echo {
-    e := echo.New()
+func CreateRouter() *gin.Engine {
+    r := gin.Default()
 
-    e.GET("/health", healthCheckHandler)
+	r.GET("/health", getting)
 
-    return e
+	return r
 }

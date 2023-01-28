@@ -1,10 +1,12 @@
 package controllers
 
 import (
+	"github.com/gin-gonic/gin"
 	"net/http"
-	"github.com/labstack/echo/v4"
 )
 
-func healthCheckHandler(c echo.Context) error {
-    return c.String(http.StatusOK, "200")
+func getting(c *gin.Context){
+    c.JSONP(http.StatusOK, gin.H{
+        "message": "200",
+    })
 }
