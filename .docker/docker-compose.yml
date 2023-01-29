@@ -10,7 +10,7 @@ services:
       - 8080:8080
     tty: true
     volumes:
-      - ./:/app
+      - ../src:/app/src
 
 #   db:
 #     container_name: mysql

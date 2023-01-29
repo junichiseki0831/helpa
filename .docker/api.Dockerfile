@@ -12,4 +12,4 @@ RUN go mod download
 COPY ./ ./
 RUN go build -o ./main ./src/cmd/main.go
 
-CMD ["air", "-c", ".air.toml"]
+CMD ["air", "-c", "./src/cmd/.air.toml"]
