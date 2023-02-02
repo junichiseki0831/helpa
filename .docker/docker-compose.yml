@@ -1,24 +1,35 @@
 version: '3'
 
 services:
-  db:
-    container_name: mysql
+  app:
+    container_name: go
     build:
-      context: .
-      dockerfile: ./db.Dockerfile
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: secrets
-      MYSQL_DATABASE: helpa
-      MYSQL_USER: testuser
-      MYSQL_PASSWORD: secrets
-      TZ: Asia/Tokyo
-      LANG: ja_JP.UTF-8
+      context: ../
+      dockerfile: ./.docker/api.Dockerfile
     ports:
-        - 3306:3306
+      - 8080:8080
+    tty: true
     volumes:
-        - db-store:/var/lib/mysql
-        - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ../src:/app/src
 
-volumes:
-  db-store:
+#   db:
+#     container_name: mysql
+#     build:
+#       context: .
+#       dockerfile: ./db.Dockerfile
+#     restart: always
+#     environment:
+#       MYSQL_ROOT_PASSWORD: secrets
+#       MYSQL_DATABASE: helpa
+#       MYSQL_USER: testuser
+#       MYSQL_PASSWORD: secrets
+#       TZ: Asia/Tokyo
+#       LANG: ja_JP.UTF-8
+#     ports:
+#         - 3306:3306
+#     volumes:
+#         - db-store:/var/lib/mysql
+#         - ./my.cnf:/etc/mysql/conf.d/my.cnf
+
+# volumes:
+#   db-store:
