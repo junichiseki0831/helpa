@@ -25,6 +25,8 @@ exclude_dir = ["tmp"]
 # Watch these directories if you specified.
 include_dir = []
 
+include_file = ["go.mod"]
+
 # Exclude files.
 exclude_file = []
 
