@@ -1,15 +1,22 @@
 package domain
 
-import "time"
+import (
+	"helpa/src/core/domain/shared/vo"
+)
+
 type User struct {
-  id UserID
-  name string
-  password string
-  email string
-  introduction string
-  note string
-  external_link string
-  imege string
-  CreatedAt time.Time
-  UpdatedAt time.Time
+	id           UserID
+	name         string
+	password     string
+	email        string
+	introduction string
+	note         string
+	externalLink string
+	imege        string
+	CreatedAt    vo.CreatedAt
+	UpdatedAt    vo.UpdatedAt
+}
+
+func (u *User) ID() UserID {
+	return u.id
 }

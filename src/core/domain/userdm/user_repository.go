@@ -1,6 +1,6 @@
 package domain
 
 type UserRepository interface {
-    Store() error
+	Store() error
 	FindByName() (*User, error)
 }
