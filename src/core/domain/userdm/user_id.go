@@ -6,15 +6,15 @@ import (
 
 type UserID string
 
-func GenerateUserId() UserID {
+func GenerateUserID() UserID {
 	ui := UserID(uuid.New().String())
 	return ui
 }
 
-func (userId UserID) Equal(otherUserId UserID) bool {
-	return userId == otherUserId
+func (userID UserID) Equal(otherUserID UserID) bool {
+	return userID == otherUserID
 }
 
-func (userId UserID) String() string {
-	return string(userId)
+func (userID UserID) String() string {
+	return string(userID)
 }

@@ -7,8 +7,8 @@ import (
 type User struct {
 	id           UserID
 	name         string
-	password     string
-	email        string
+	password     vo.Password
+	email        vo.Email
 	introduction string
 	note         string
 	externalLink string
@@ -19,4 +19,12 @@ type User struct {
 
 func (u *User) ID() UserID {
 	return u.id
+}
+
+func (u *User) Password() vo.Password {
+	return u.password
+}
+
+func (u *User) Email() vo.Email {
+	return u.email
 }
