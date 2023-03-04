@@ -1,17 +1,99 @@
-package domain
+package domain_test
 
-// func TestID(t *testing.T) {
-// 	cases := map[int]User {
-// 		id           UserID
-// 		password     vo.Password
-// 		email        vo.Email
-// 		CreatedAt    vo.CreatedAt
-// 		UpdatedAt    vo.UpdatedAt
-// 	}{
-// 		1:	{"123-456-789-1", "12345671", test1test.com, time.Date(2022, time.February, 1, 22, 0, 0, 0, time.UTC), time.Date(2022, time.February, 1, 22, 0, 0, 0, time.UTC)},
-// 		2:	{"123-456-789-2", "12345672", test2test.com, time.Date(2022, time.February, 1, 22, 0, 0, 0, time.UTC), time.Date(2022, time.February, 1, 22, 0, 0, 0, time.UTC)},
-// 		3: 	{"123-456-789-3", "12345673", test3test.com, time.Date(2022, time.February, 1, 22, 0, 0, 0, time.UTC), time.Date(2022, time.February, 1, 22, 0, 0, 0, time.UTC)},
-// 		4:	{"123-456-789-4", "12345674", test4test.com, time.Date(2022, time.February, 1, 22, 0, 0, 0, time.UTC), time.Date(2022, time.February, 1, 22, 0, 0, 0, time.UTC)},
-// 	}
+import (
+	"helpa/src/core/domain/shared/vo"
+	domain "helpa/src/core/domain/userdm"
+	"testing"
 
-// }
+	"github.com/stretchr/testify/assert"
+)
+
+func TestID(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.ID())
+}
+
+func TestName(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.Name())
+}
+
+func TestPassword(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.Password())
+}
+
+func TestEmail(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.Email())
+}
+
+func TestIntroduction(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.Introduction())
+}
+
+func TestNote(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.Note())
+}
+
+func TestExternalLink(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.ExternalLink())
+}
+
+func TestImege(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.Imege())
+}
+
+func TestCreatedAt(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.CreatedAt())
+}
+
+func TestUpdatedAt(t *testing.T) {
+	c, _ := vo.NewCreatedAt()
+	u, _ := vo.NewUpdatedAt()
+	i := domain.NewUserID()
+	user := domain.NewUser(i, "test1", "12345671", "test1@test.com", "test1", "test1", "test1", "image1", c, u)
+
+	assert.NotEmpty(t, user.UpdatedAt())
+}

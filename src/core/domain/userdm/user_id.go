@@ -6,7 +6,7 @@ import (
 
 type UserID string
 
-func GenerateUserID() UserID {
+func NewUserID() UserID {
 	ui := UserID(uuid.New().String())
 	return ui
 }

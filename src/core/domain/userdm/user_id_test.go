@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGenerateUserIDToString(t *testing.T) {
-	id := GenerateUserID()
+func TestNewUserIDToString(t *testing.T) {
+	id := NewUserID()
 	result := id.String()
 	assert.NotEmpty(t, result)
 }

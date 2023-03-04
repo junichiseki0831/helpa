@@ -1,13 +1,39 @@
-package vo
+package vo_test
 
 import (
+	"helpa/src/core/domain/shared/vo"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGenerateUpdatedAt(t *testing.T) {
-	now := time.Now()
-	assert.NotEmpty(t, UpdatedAt(now.Format("2006-01-02 15:04:05")))
+// NewUpdatedAt で値を作成し、先に作成した値よりも後に作成されている値かを確認する
+func TestNewUpdatedAt(t *testing.T) {
+	cases := map[int]time.Time{
+		1: time.Now(),
+		2: time.Date(2023, time.December, 10, 23, 1, 10, 0, time.Local),
+		3: time.Date(2023, time.December, 10, 23, 1, 10, 0, time.Local),
+		4: time.Now(),
+		5: time.Now(),
+	}
+	got, err := vo.NewUpdatedAt()
+	assert.Empty(t, err)
+	assert.True(t, got.Value().After(cases[1]))
+}
+
+// 同じ値を NewUpdatedAtByVal で作成し、同じ内容を返し比較する
+func TestEqual(t *testing.T) {
+	cases := map[int]time.Time{
+		1: time.Now(),
+		2: time.Date(2023, time.December, 10, 23, 1, 10, 0, time.Local),
+		3: time.Date(2023, time.December, 10, 23, 1, 10, 0, time.Local),
+		4: time.Now(),
+		5: time.Now(),
+	}
+	got1, err1 := vo.NewUpdatedAtByVal(cases[2])
+	got2, err2 := vo.NewUpdatedAtByVal(cases[3])
+	result := got1.Equal(got2)
+	assert.Empty(t, err1, err2)
+	assert.True(t, result)
 }
