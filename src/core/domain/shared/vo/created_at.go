@@ -1,7 +1,6 @@
 package vo
 
 import (
-	"errors"
 	"time"
 )
 
@@ -9,10 +8,7 @@ type CreatedAt time.Time
 
 func NewCreatedAt() (CreatedAt, error) {
 	t := CreatedAt(time.Now())
-	if !t.Equal(t) {
-		return t, errors.New("エラー")
-	}
-	return t, errors.New("")
+	return t, nil
 }
 
 func (c CreatedAt) Value() time.Time {
@@ -21,10 +17,7 @@ func (c CreatedAt) Value() time.Time {
 
 func NewCreatedAtByVal(at time.Time) (CreatedAt, error) {
 	t := CreatedAt(at)
-	if !t.Equal(t) {
-		return t, errors.New("エラー")
-	}
-	return t, errors.New("")
+	return t, nil
 }
 
 func (c CreatedAt) String(t time.Time) string {

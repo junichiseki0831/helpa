@@ -1,7 +1,6 @@
 package vo
 
 import (
-	"errors"
 	"time"
 )
 
@@ -9,10 +8,7 @@ type UpdatedAt time.Time
 
 func NewUpdatedAt() (UpdatedAt, error) {
 	t := UpdatedAt(time.Now())
-	if !t.Equal(t) {
-		return t, errors.New("エラー")
-	}
-	return t, errors.New("")
+	return t, nil
 }
 
 func (u UpdatedAt) Value() time.Time {
@@ -21,10 +17,7 @@ func (u UpdatedAt) Value() time.Time {
 
 func NewUpdatedAtByVal(u time.Time) (UpdatedAt, error) {
 	t := UpdatedAt(u)
-	if !t.Equal(t) {
-		return t, errors.New("エラー")
-	}
-	return t, errors.New("")
+	return t, nil
 }
 
 func (u UpdatedAt) String(t time.Time) string {

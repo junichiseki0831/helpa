@@ -6,6 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/google/uuid v1.3.0
 	github.com/stretchr/testify v1.8.1
+	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
 )
 
 require (

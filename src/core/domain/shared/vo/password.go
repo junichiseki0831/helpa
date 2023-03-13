@@ -1,15 +1,21 @@
 package vo
 
-import "errors"
+import (
+	"errors"
+	"regexp"
+)
 
 type Password string
 
 func NewPassword(password string) (Password, error) {
 	len := len(password)
-	if len < 8 || len > 8 {
+	if len < 8 || len > 8 { // 文字数判定
 		return Password(""), errors.New("please use 8 characters")
 	}
-	return Password(password), errors.New("")
+	if !(regexp.MustCompile("^[0-9a-zA-Z]+$").MatchString(password)) { // 英数字以外を使っているか判定
+		return Password(""), errors.New("please do not use non-alphanumeric characters")
+	}
+	return Password(password), nil
 }
 
 func (p Password) String() string {
