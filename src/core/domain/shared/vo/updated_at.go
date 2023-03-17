@@ -1,6 +1,7 @@
 package vo
 
 import (
+	"errors"
 	"time"
 )
 
@@ -15,8 +16,11 @@ func (u UpdatedAt) Value() time.Time {
 	return time.Time(u)
 }
 
-func NewUpdatedAtByVal(u time.Time) (UpdatedAt, error) {
-	t := UpdatedAt(u)
+func NewUpdatedAtByVal(ut time.Time) (UpdatedAt, error) {
+	t := UpdatedAt(ut)
+	if ut.IsZero() {
+		return UpdatedAt(time.Time{}), errors.New("error")
+	}
 	return t, nil
 }
 

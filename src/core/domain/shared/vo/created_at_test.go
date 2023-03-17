@@ -10,30 +10,43 @@ import (
 
 // NewCreatedAt で値を作成し、先に作成した値よりも後に作成されている値かを確認する
 func TestNewCreatedAt(t *testing.T) {
-	cases1 := map[string]time.Time{
+	cases := map[string]time.Time{
 		"正常形1": time.Now(),
 		"正常形2": time.Now(),
 		"正常形3": time.Now(),
 	}
-	cases2 := map[string]time.Time{
-		"異常形1": time.Date(2023, time.December, 10, 23, 1, 10, 0, time.Local),
-		"異常形2": time.Date(2023, time.December, 10, 23, 1, 10, 0, time.Local),
-		"異常形3": time.Date(2023, time.December, 10, 23, 1, 10, 0, time.Local),
-	}
 
-	for name, tt := range cases1 {
+	for name, tt := range cases {
 		t.Run(name, func(t *testing.T) {
 			got, err := vo.NewCreatedAt()
 			assert.Empty(t, err)
 			assert.True(t, got.Value().After(tt))
 		})
 	}
+}
+
+func TestNewCreatedAtByVal(t *testing.T) {
+	cases1 := map[string]time.Time{
+		"正常形1": time.Date(2023, time.December, 10, 23, 1, 10, 0, time.Local),
+		"正常形2": time.Date(2023, time.December, 10, 23, 1, 10, 0, time.Local),
+	}
+	cases2 := map[string]time.Time{
+		"異常形1": {},
+		"異常形2": {},
+	}
+
+	for name, tt := range cases1 {
+		t.Run(name, func(t *testing.T) {
+			got, err := vo.NewCreatedAtByVal(tt)
+			assert.Empty(t, err)
+			assert.NotEmpty(t, tt, got)
+		})
+	}
 
 	for name, tt := range cases2 {
 		t.Run(name, func(t *testing.T) {
-			got, err := vo.NewCreatedAt()
-			assert.Empty(t, err)
-			assert.False(t, got.Value().After(tt))
+			_, err := vo.NewCreatedAtByVal(tt)
+			assert.Error(t, err)
 		})
 	}
 }

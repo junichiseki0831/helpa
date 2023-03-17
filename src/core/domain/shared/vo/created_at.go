@@ -1,6 +1,7 @@
 package vo
 
 import (
+	"errors"
 	"time"
 )
 
@@ -17,6 +18,9 @@ func (c CreatedAt) Value() time.Time {
 
 func NewCreatedAtByVal(at time.Time) (CreatedAt, error) {
 	t := CreatedAt(at)
+	if at.IsZero() {
+		return CreatedAt(time.Time{}), errors.New("error")
+	}
 	return t, nil
 }
 
