@@ -8,8 +8,7 @@ import (
 type CreatedAt time.Time
 
 func NewCreatedAt() (CreatedAt, error) {
-	t := CreatedAt(time.Now())
-	return t, nil
+	return CreatedAt(time.Now()), nil
 }
 
 func (c CreatedAt) Value() time.Time {

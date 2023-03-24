@@ -8,29 +8,36 @@ import (
 )
 
 func TestNewPassword(t *testing.T) {
-	cases1 := map[string]string{
-		"正常形1": "12345671",
-		"正常形2": "12345672",
-		"正常形3": "12345673",
-	}
+	for _, tt := range []struct {
+		name  string
+		input string
+		isErr bool
+	}{
+		{
+			name:  "正常系",
+			input: "12345671",
+		},
+		{
+			name:  "異常系: 引数が8文字以上",
+			input: "123456789",
+			isErr: true,
+		},
+		{
+			name:  "異常系: 引数に記号が含まれる",
+			input: "1234567@",
+			isErr: true,
+		},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := vo.NewPassword(tt.input)
+			if tt.isErr {
+				assert.NotNil(t, err)
+				assert.Empty(t, got)
+				return
+			}
 
-	cases2 := map[string]string{
-		"異常形1": "123456789",
-		"異常形2": "1234567@",
-	}
-
-	for name, tt := range cases1 {
-		t.Run(name, func(t *testing.T) {
-			got, err := vo.NewPassword(tt)
-			assert.Empty(t, err)
-			assert.Equal(t, tt, got.String())
-		})
-	}
-
-	for name, tt := range cases2 {
-		t.Run(name, func(t *testing.T) {
-			_, err := vo.NewPassword(tt)
-			assert.Error(t, err)
+			assert.Nil(t, err)
+			assert.Equal(t, tt.input, got.String())
 		})
 	}
 }

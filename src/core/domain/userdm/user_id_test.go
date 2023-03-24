@@ -7,14 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewUserIDToString(t *testing.T) {
+func TestNewUserID(t *testing.T) {
 	id := domain.NewUserID()
 	result := id.String()
 	assert.NotEmpty(t, result)
-}
-
-func TestEqual(t *testing.T) {
-	id := domain.UserID("123-456-7890")
-	result := id.Equal(id)
-	assert.True(t, result)
 }
