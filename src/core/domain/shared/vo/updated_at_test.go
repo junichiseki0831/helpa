@@ -21,8 +21,7 @@ func TestNewUpdatedAt(t *testing.T) {
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := vo.NewUpdatedAt()
-			assert.Empty(t, err)
+			got := vo.NewUpdatedAt()
 			assert.True(t, got.Value().After(tt.input))
 		})
 	}

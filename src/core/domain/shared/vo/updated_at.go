@@ -7,8 +7,8 @@ import (
 
 type UpdatedAt time.Time
 
-func NewUpdatedAt() (UpdatedAt, error) {
-	return UpdatedAt(time.Now()), nil
+func NewUpdatedAt() UpdatedAt {
+	return UpdatedAt(time.Now())
 }
 
 func (u UpdatedAt) Value() time.Time {

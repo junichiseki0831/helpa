@@ -21,8 +21,7 @@ func TestNewCreatedAt(t *testing.T) {
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := vo.NewCreatedAt()
-			assert.Empty(t, err)
+			got := vo.NewCreatedAt()
 			assert.True(t, got.Value().After(tt.input))
 		})
 	}
