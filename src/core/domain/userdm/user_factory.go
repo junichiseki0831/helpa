@@ -16,7 +16,6 @@ func GenForTest(id, name, password, email, introduction, note, externalLink, ime
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(pass)
 	mail, err := vo.NewEmail(email)
 	if err != nil {
 		return nil, err

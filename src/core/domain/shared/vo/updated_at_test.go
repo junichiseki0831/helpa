@@ -13,7 +13,6 @@ func TestNewUpdatedAt(t *testing.T) {
 	for _, tt := range []struct {
 		name  string
 		input time.Time
-		isErr bool
 	}{
 		{
 			name:  "正常系",

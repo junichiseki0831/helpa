@@ -7,13 +7,14 @@ import (
 
 type Email string
 
+var emailCheckFormat = regexp.MustCompile(`^(?i:[^ @"<>]+|".*")@(?i:[a-z1-9.])+.(?i:[a-z])+$`)
+
 func NewEmail(email string) (Email, error) {
 	len := len(email)
-	checkFormat := regexp.MustCompile(`^(?i:[^ @"<>]+|".*")@(?i:[a-z1-9.])+.(?i:[a-z])+$`).MatchString(email)
 	if len >= 256 {
 		return Email(""), errors.New("please enter within 256 characters")
 	}
-	if !checkFormat {
+	if !emailCheckFormat.MatchString(email) {
 		return Email(""), errors.New("please fill in according to the email format")
 	}
 	return Email(email), nil

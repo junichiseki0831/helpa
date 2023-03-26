@@ -8,8 +8,7 @@ import (
 type UserID string
 
 func NewUserID() UserID {
-	ui := UserID(uuid.New().String())
-	return ui
+	return UserID(uuid.New().String())
 }
 
 func NewUserIDByVal(val string) (UserID, error) {

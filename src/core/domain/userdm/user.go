@@ -17,7 +17,7 @@ type User struct {
 	updatedAt    vo.UpdatedAt
 }
 
-func NewUser(
+func newUser(
 	id UserID,
 	name string,
 	password vo.Password,

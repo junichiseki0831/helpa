@@ -23,8 +23,8 @@ func NewCreatedAtByVal(at time.Time) (CreatedAt, error) {
 	return t, nil
 }
 
-func (c CreatedAt) String(t time.Time) string {
-	return t.Format("2006-01-02 15:04:05")
+func (c CreatedAt) String() string {
+	return c.Value().Format("2006-01-02 15:04:05")
 }
 
 func (c CreatedAt) Equal(c2 CreatedAt) bool {

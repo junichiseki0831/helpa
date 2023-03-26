@@ -23,8 +23,8 @@ func NewUpdatedAtByVal(ut time.Time) (UpdatedAt, error) {
 	return t, nil
 }
 
-func (u UpdatedAt) String(t time.Time) string {
-	return t.Format("2006-01-02 15:04:05")
+func (u UpdatedAt) String() string {
+	return u.Value().Format("2006-01-02 15:04:05")
 }
 
 func (u UpdatedAt) Equal(u2 UpdatedAt) bool {
