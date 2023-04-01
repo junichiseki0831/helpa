@@ -1,14 +1,12 @@
 package domain
 
 import (
-	"fmt"
 	"helpa/src/core/domain/shared/vo"
 	"time"
 )
 
-func GenForTest(id, name, password, email, introduction, note, externalLink, imege string, createdAt, updatedAt time.Time) (*User, error) {
+func GenForTest(id, name, password, email, introduction, note string, image []byte, createdAt, updatedAt time.Time) (*User, error) {
 	userID, err := NewUserIDByVal(id)
-	fmt.Println(userID)
 	if err != nil {
 		return nil, err
 	}
@@ -28,5 +26,5 @@ func GenForTest(id, name, password, email, introduction, note, externalLink, ime
 	if err != nil {
 		return nil, err
 	}
-	return NewUser(userID, name, pass, mail, introduction, note, externalLink, imege, ca, ua), nil
+	return newUser(userID, name, pass, mail, introduction, note, image, ca, ua)
 }

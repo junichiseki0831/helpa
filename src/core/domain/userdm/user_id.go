@@ -1,8 +1,9 @@
 package domain
 
 import (
+	"errors"
+
 	"github.com/google/uuid"
-	"golang.org/x/xerrors"
 )
 
 type UserID string
@@ -13,7 +14,7 @@ func NewUserID() UserID {
 
 func NewUserIDByVal(val string) (UserID, error) {
 	if val == "" {
-		return UserID(""), xerrors.New("userdm id must not be empty")
+		return UserID(""), errors.New("user id must not be empty")
 	}
 	return UserID(val), nil
 }

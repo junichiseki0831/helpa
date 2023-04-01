@@ -4,7 +4,7 @@ import (
 	"errors"
 	"helpa/src/core/domain/shared/vo"
 	"net/http"
-	"net/url"
+	"unicode/utf8"
 )
 
 type User struct {
@@ -14,8 +14,7 @@ type User struct {
 	email        vo.Email
 	introduction string
 	note         string
-	externalLink string
-	image        string
+	image        []byte
 	createdAt    vo.CreatedAt
 	updatedAt    vo.UpdatedAt
 }
@@ -27,37 +26,31 @@ func newUser(
 	email vo.Email,
 	introduction string,
 	note string,
-	externalLink string,
-	image string,
+	image []byte,
 	createdAt vo.CreatedAt,
 	updatedAt vo.UpdatedAt,
 ) (*User, error) {
 
-	nameLen := len(name)
-	introductionLen := len(introduction)
-	noteLen := len(note)
+	nameLen := utf8.RuneCountInString(name)
+	introductionLen := utf8.RuneCountInString(introduction)
+	noteLen := utf8.RuneCountInString(note)
 	if name == "" {
-		return nil, errors.New("Empty name")
+		return nil, errors.New("empty name")
 	} else if nameLen > 50 {
-		return nil, errors.New("Please enter your name within 50 characters")
+		return nil, errors.New("please enter your name within 50 characters")
 	}
 
 	if introductionLen > 500 {
-		return nil, errors.New("Please enter your introduction within 500 characters")
+		return nil, errors.New("please enter your introduction within 500 characters")
 	}
 
 	if noteLen > 500 {
-		return nil, errors.New("Please enter your note within 500 characters")
+		return nil, errors.New("please enter your note within 500 characters")
 	}
 
-	_, err := url.ParseRequestURI(externalLink)
-	if err != nil {
-		return nil, errors.New("there is an error in the url")
-	}
-
-	mine := http.DetectContentType([]byte(image))
-	if mine != "image/jpeg" || mine != "image/png" {
-		return nil, errors.New("Please specify the image extension as jpg or png")
+	mine := http.DetectContentType(image)
+	if mine != "image/jpeg" && mine != "image/png" {
+		return nil, errors.New("please specify the image extension as jpg or png")
 	}
 
 	return &User{
@@ -67,7 +60,6 @@ func newUser(
 		email:        email,
 		introduction: introduction,
 		note:         note,
-		externalLink: externalLink,
 		image:        image,
 		createdAt:    createdAt,
 		updatedAt:    updatedAt,
@@ -98,11 +90,7 @@ func (u *User) Note() string {
 	return u.note
 }
 
-func (u *User) ExternalLink() string {
-	return u.externalLink
-}
-
-func (u *User) Imege() string {
+func (u *User) Image() []byte {
 	return u.image
 }
 
