@@ -31,20 +31,17 @@ func newUser(
 	updatedAt vo.UpdatedAt,
 ) (*User, error) {
 
-	nameLen := utf8.RuneCountInString(name)
-	introductionLen := utf8.RuneCountInString(introduction)
-	noteLen := utf8.RuneCountInString(note)
 	if name == "" {
 		return nil, errors.New("empty name")
-	} else if nameLen > 50 {
+	} else if nameLen := utf8.RuneCountInString(name); nameLen > 50 {
 		return nil, errors.New("please enter your name within 50 characters")
 	}
 
-	if introductionLen > 500 {
+	if introductionLen := utf8.RuneCountInString(introduction); introductionLen > 500 {
 		return nil, errors.New("please enter your introduction within 500 characters")
 	}
 
-	if noteLen > 500 {
+	if noteLen := utf8.RuneCountInString(note); noteLen > 500 {
 		return nil, errors.New("please enter your note within 500 characters")
 	}
 

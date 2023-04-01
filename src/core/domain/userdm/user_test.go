@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestNewUser(t *testing.T) {
@@ -17,7 +18,7 @@ func TestNewUser(t *testing.T) {
 	_ = png.Encode(buf, img)
 	enc := buf.Bytes()
 
-	user, _ := domain.GenForTest("123", "testName", "12345671", "test1@test.com", "testIntroduction", "testNote", enc, time.Now(), time.Now())
+	user, err := domain.GenForTest("123", "testName", "12345671", "test1@test.com", "testIntroduction", "testNote", enc, time.Now(), time.Now())
 
 	assert.NotEmpty(t, user.ID())
 	assert.NotEmpty(t, user.Name())
@@ -28,4 +29,5 @@ func TestNewUser(t *testing.T) {
 	assert.NotEmpty(t, user.Image())
 	assert.NotEmpty(t, user.CreatedAt())
 	assert.NotEmpty(t, user.UpdatedAt())
+	require.NoError(t, err)
 }
