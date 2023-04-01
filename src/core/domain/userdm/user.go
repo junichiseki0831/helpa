@@ -3,7 +3,6 @@ package domain
 import (
 	"errors"
 	"helpa/src/core/domain/shared/vo"
-	"net/http"
 	"unicode/utf8"
 )
 
@@ -14,7 +13,7 @@ type User struct {
 	email        vo.Email
 	introduction string
 	note         string
-	image        []byte
+	image        string
 	createdAt    vo.CreatedAt
 	updatedAt    vo.UpdatedAt
 }
@@ -26,7 +25,7 @@ func newUser(
 	email vo.Email,
 	introduction string,
 	note string,
-	image []byte,
+	image string,
 	createdAt vo.CreatedAt,
 	updatedAt vo.UpdatedAt,
 ) (*User, error) {
@@ -43,11 +42,6 @@ func newUser(
 
 	if noteLen := utf8.RuneCountInString(note); noteLen > 500 {
 		return nil, errors.New("please enter your note within 500 characters")
-	}
-
-	mine := http.DetectContentType(image)
-	if mine != "image/jpeg" && mine != "image/png" {
-		return nil, errors.New("please specify the image extension as jpg or png")
 	}
 
 	return &User{
@@ -87,7 +81,7 @@ func (u *User) Note() string {
 	return u.note
 }
 
-func (u *User) Image() []byte {
+func (u *User) Image() string {
 	return u.image
 }
 

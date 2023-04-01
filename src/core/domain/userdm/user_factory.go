@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func GenForTest(id, name, password, email, introduction, note string, image []byte, createdAt, updatedAt time.Time) (*User, error) {
+func GenForTest(id, name, password, email, introduction, note image string, createdAt, updatedAt time.Time) (*User, error) {
 	userID, err := NewUserIDByVal(id)
 	if err != nil {
 		return nil, err

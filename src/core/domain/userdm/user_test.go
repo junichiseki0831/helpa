@@ -1,10 +1,7 @@
 package domain_test
 
 import (
-	"bytes"
 	domain "helpa/src/core/domain/userdm"
-	"image"
-	"image/png"
 	"testing"
 	"time"
 
@@ -13,12 +10,7 @@ import (
 )
 
 func TestNewUser(t *testing.T) {
-	buf := bytes.NewBuffer([]byte{})
-	img := image.NewRGBA(image.Rect(0, 0, 50, 50))
-	_ = png.Encode(buf, img)
-	enc := buf.Bytes()
-
-	user, err := domain.GenForTest("123", "testName", "12345671", "test1@test.com", "testIntroduction", "testNote", enc, time.Now(), time.Now())
+	user, err := domain.GenForTest("123", "testName", "12345671", "test1@test.com", "testIntroduction", "testNote", "image.png", time.Now(), time.Now())
 
 	assert.NotEmpty(t, user.ID())
 	assert.NotEmpty(t, user.Name())
