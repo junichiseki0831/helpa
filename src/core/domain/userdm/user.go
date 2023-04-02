@@ -13,7 +13,7 @@ type User struct {
 	email        vo.Email
 	introduction string
 	note         string
-	image        string
+	image        vo.Image
 	createdAt    vo.CreatedAt
 	updatedAt    vo.UpdatedAt
 }
@@ -25,7 +25,7 @@ func newUser(
 	email vo.Email,
 	introduction string,
 	note string,
-	image string,
+	image vo.Image,
 	createdAt vo.CreatedAt,
 	updatedAt vo.UpdatedAt,
 ) (*User, error) {
@@ -81,7 +81,7 @@ func (u *User) Note() string {
 	return u.note
 }
 
-func (u *User) Image() string {
+func (u *User) Image() vo.Image {
 	return u.image
 }
 

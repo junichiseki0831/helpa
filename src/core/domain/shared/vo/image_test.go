@@ -9,13 +9,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-//go:embed sample/sample.png
+//go:embed testdata/sample.png
 var sampleImagePng []byte
 
-//go:embed sample/sample.jpg
-var sampleImagejpg []byte
+//go:embed testdata/sample.jpg
+var sampleImageJpg []byte
 
-//go:embed sample/sample.gif
+//go:embed testdata/sample.gif
 var sampleImageGif []byte
 
 func TestNewImage(t *testing.T) {
@@ -30,7 +30,7 @@ func TestNewImage(t *testing.T) {
 		},
 		{
 			name:  "正常系2",
-			input: sampleImagejpg,
+			input: sampleImageJpg,
 		},
 		{
 			name:  "異常系1",
