@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func GenForTest(id, name, password, email, introduction, note image string, createdAt, updatedAt time.Time) (*User, error) {
+func GenForTest(id, name, password, email, introduction, note, image string, createdAt, updatedAt time.Time) (*User, error) {
 	userID, err := NewUserIDByVal(id)
 	if err != nil {
 		return nil, err
@@ -18,6 +18,10 @@ func GenForTest(id, name, password, email, introduction, note image string, crea
 	if err != nil {
 		return nil, err
 	}
+	img, err := vo.NewImage(image)
+	if err != nil {
+		return nil, err
+	}
 	ca, err := vo.NewCreatedAtByVal(createdAt)
 	if err != nil {
 		return nil, err
@@ -26,5 +30,5 @@ func GenForTest(id, name, password, email, introduction, note image string, crea
 	if err != nil {
 		return nil, err
 	}
-	return newUser(userID, name, pass, mail, introduction, note, image, ca, ua)
+	return newUser(userID, name, pass, mail, introduction, note, img, ca, ua)
 }
