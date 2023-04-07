@@ -22,6 +22,6 @@ func NewImage(imageBase64 string) (Image, error) {
 	return Image{binary: dec}, nil
 }
 
-func (i *Image) Binary() []byte {
+func (i Image) Binary() []byte {
 	return i.binary
 }
