@@ -32,3 +32,19 @@ func GenForTest(id, name, password, email, introduction, note, image string, cre
 	}
 	return newUser(userID, name, pass, mail, introduction, note, img, ca, ua)
 }
+
+func GenWhenCreate(name, password, email, introduction, note, image string) (*User, error) {
+	pass, err := vo.NewPassword(password)
+	if err != nil {
+		return nil, err
+	}
+	mail, err := vo.NewEmail(email)
+	if err != nil {
+		return nil, err
+	}
+	img, err := vo.NewImage(image)
+	if err != nil {
+		return nil, err
+	}
+	return newUser(NewUserID(), name, pass, mail, introduction, note, img, vo.NewCreatedAt(), vo.NewUpdatedAt())
+}
