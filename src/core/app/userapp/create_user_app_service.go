@@ -2,7 +2,6 @@ package app
 
 import (
 	"context"
-	"encoding/base64"
 	domain "helpa/src/core/domain/userdm"
 )
 
@@ -22,12 +21,11 @@ type CreateUserRequest struct {
 	Email        string
 	Introduction string
 	Note         string
-	Image        []byte
+	Image        string
 }
 
 func (app *CreateUserAppService) Exec(ctx context.Context, req *CreateUserRequest) error {
-	base64String := base64.StdEncoding.EncodeToString(req.Image)
-	createUser, err := domain.GenWhenCreate(req.Name, req.Password, req.Email, req.Introduction, req.Note, base64String)
+	createUser, err := domain.GenWhenCreate(req.Name, req.Password, req.Email, req.Introduction, req.Note, req.Image)
 	if err != nil {
 		return err
 	}
