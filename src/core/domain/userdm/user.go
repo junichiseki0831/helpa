@@ -92,3 +92,39 @@ func (u *User) CreatedAt() vo.CreatedAt {
 func (u *User) UpdatedAt() vo.UpdatedAt {
 	return u.updatedAt
 }
+
+func (u *User) SetID(id UserID) {
+	u.id = id
+}
+
+func (u *User) SetName(name string) {
+	u.name = name
+}
+
+func (u *User) SetPassword(password vo.Password) {
+	u.password = password
+}
+
+func (u *User) SetEmail(email vo.Email) {
+	u.email = email
+}
+
+func (u *User) SetIntroduction(introduction string) {
+	u.introduction = introduction
+}
+
+func (u *User) SetNote(note string) {
+	u.note = note
+}
+
+func (u *User) SetImage(image vo.Image) {
+	u.image = image
+}
+
+func (u *User) SetCreatedAt(createdAt vo.CreatedAt) {
+	u.createdAt = createdAt
+}
+
+func (u *User) SetUpdatedAt(updatedAt vo.UpdatedAt) {
+	u.updatedAt = updatedAt
+}

@@ -12,24 +12,24 @@ services:
     volumes:
       - ../src:/app/src
 
-#   db:
-#     container_name: mysql
-#     build:
-#       context: .
-#       dockerfile: ./db.Dockerfile
-#     restart: always
-#     environment:
-#       MYSQL_ROOT_PASSWORD: secrets
-#       MYSQL_DATABASE: helpa
-#       MYSQL_USER: testuser
-#       MYSQL_PASSWORD: secrets
-#       TZ: Asia/Tokyo
-#       LANG: ja_JP.UTF-8
-#     ports:
-#         - 3306:3306
-#     volumes:
-#         - db-store:/var/lib/mysql
-#         - ./my.cnf:/etc/mysql/conf.d/my.cnf
+  db:
+    container_name: mysql
+    build:
+      context: .
+      dockerfile: ./db.Dockerfile
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secrets
+      MYSQL_DATABASE: helpa
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: secrets
+      TZ: Asia/Tokyo
+      LANG: ja_JP.UTF-8
+    ports:
+        - 3306:3306
+    volumes:
+        - db-store:/var/lib/mysql
+        - ./my.cnf:/etc/mysql/conf.d/my.cnf
 
-# volumes:
-#   db-store:
+volumes:
+  db-store:
