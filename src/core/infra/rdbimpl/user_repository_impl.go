@@ -4,9 +4,7 @@ import (
 	"context"
 	_ "embed"
 	"helpa/src/core/domain/datamodel"
-	"helpa/src/core/domain/shared/vo"
 	domain "helpa/src/core/domain/userdm"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -38,7 +36,6 @@ func (repo *UserRepositoryImpl) FindByName(ctx context.Context, name string) ([]
 		}
 		users = append(users, *user)
 	}
-
 	return users, nil
 }
 
@@ -66,33 +63,4 @@ func NewDB() (*sqlx.DB, error) {
 		return nil, err
 	}
 	return db, nil
-}
-
-func toDomainUser(dmUser *datamodel.User) (*domain.User, error) {
-	user := &domain.User{}
-	user.SetID(domain.UserID(dmUser.ID))
-	user.SetName(dmUser.Name)
-	user.SetPassword(vo.Password(dmUser.Password))
-	user.SetEmail(vo.Email(dmUser.Email))
-	user.SetIntroduction(dmUser.Introduction)
-	user.SetNote(dmUser.Note)
-	if dmUser.Image.Valid {
-		image, err := vo.NewImage(dmUser.Image.String)
-		if err != nil {
-			return nil, err
-		}
-		user.SetImage(image)
-	}
-	createdAt, err := time.Parse("2006-01-02 15:04:05", dmUser.CreatedAt)
-	if err != nil {
-		return nil, err
-	}
-	user.SetCreatedAt(vo.CreatedAt(createdAt))
-	updatedAt, err := time.Parse("2006-01-02 15:04:05", dmUser.UpdatedAt)
-	if err != nil {
-		return nil, err
-	}
-	user.SetUpdatedAt(vo.UpdatedAt(updatedAt))
-
-	return user, nil
 }

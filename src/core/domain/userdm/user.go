@@ -1,10 +1,16 @@
 package domain
 
 import (
+	_ "embed"
+	"encoding/base64"
 	"errors"
 	"helpa/src/core/domain/shared/vo"
+	"time"
 	"unicode/utf8"
 )
+
+//go:embed testdata/sample.png
+var sampleImagePng []byte
 
 type User struct {
 	id           UserID
@@ -93,38 +99,46 @@ func (u *User) UpdatedAt() vo.UpdatedAt {
 	return u.updatedAt
 }
 
-func (u *User) SetID(id UserID) {
-	u.id = id
-}
+func Reconstruct(id, name, password, email, introduction, note string, createdAt, updatedAt time.Time) (*User, error) {
+	userID, err := NewUserIDByVal(id)
+	if err != nil {
+		return nil, err
+	}
+	pass, err := vo.NewPassword(password)
+	if err != nil {
+		return nil, err
+	}
+	mail, err := vo.NewEmail(email)
+	if err != nil {
+		return nil, err
+	}
+	base64String := base64.StdEncoding.EncodeToString(sampleImagePng)
+	img, err := vo.NewImage(base64String)
+	if err != nil {
+		return nil, err
+	}
+	ca, err := vo.NewCreatedAtByVal(createdAt)
+	if err != nil {
+		return nil, err
+	}
+	ua, err := vo.NewUpdatedAtByVal(updatedAt)
+	if err != nil {
+		return nil, err
+	}
 
-func (u *User) SetName(name string) {
-	u.name = name
-}
-
-func (u *User) SetPassword(password vo.Password) {
-	u.password = password
-}
-
-func (u *User) SetEmail(email vo.Email) {
-	u.email = email
-}
-
-func (u *User) SetIntroduction(introduction string) {
-	u.introduction = introduction
-}
-
-func (u *User) SetNote(note string) {
-	u.note = note
-}
-
-func (u *User) SetImage(image vo.Image) {
-	u.image = image
-}
-
-func (u *User) SetCreatedAt(createdAt vo.CreatedAt) {
-	u.createdAt = createdAt
-}
-
-func (u *User) SetUpdatedAt(updatedAt vo.UpdatedAt) {
-	u.updatedAt = updatedAt
+	user, err := newUser(
+		userID,
+		name,
+		pass,
+		mail,
+		introduction,
+		note,
+		img,
+		ca,
+		ua,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }
