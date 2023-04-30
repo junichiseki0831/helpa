@@ -1,16 +1,11 @@
 package domain
 
 import (
-	_ "embed"
-	"encoding/base64"
 	"errors"
 	"helpa/src/core/domain/shared/vo"
 	"time"
 	"unicode/utf8"
 )
-
-//go:embed testdata/sample.png
-var sampleImagePng []byte
 
 type User struct {
 	id           UserID
@@ -99,7 +94,7 @@ func (u *User) UpdatedAt() vo.UpdatedAt {
 	return u.updatedAt
 }
 
-func Reconstruct(id, name, password, email, introduction, note string, createdAt, updatedAt time.Time) (*User, error) {
+func Reconstruct(id, name, password, email, introduction, note, image string, createdAt, updatedAt time.Time) (*User, error) {
 	userID, err := NewUserIDByVal(id)
 	if err != nil {
 		return nil, err
@@ -112,8 +107,7 @@ func Reconstruct(id, name, password, email, introduction, note string, createdAt
 	if err != nil {
 		return nil, err
 	}
-	base64String := base64.StdEncoding.EncodeToString(sampleImagePng)
-	img, err := vo.NewImage(base64String)
+	img, err := vo.NewImage(image)
 	if err != nil {
 		return nil, err
 	}
@@ -126,7 +120,7 @@ func Reconstruct(id, name, password, email, introduction, note string, createdAt
 		return nil, err
 	}
 
-	user, err := newUser(
+	return newUser(
 		userID,
 		name,
 		pass,
@@ -137,8 +131,4 @@ func Reconstruct(id, name, password, email, introduction, note string, createdAt
 		ca,
 		ua,
 	)
-	if err != nil {
-		return nil, err
-	}
-	return user, nil
 }

@@ -18,7 +18,7 @@ func toDomainUser(dmUser *datamodel.User) (*domain.User, error) {
 		return nil, errors.New("failed to parse updatedat")
 	}
 
-	user, err := domain.Reconstruct(dmUser.ID, dmUser.Name, dmUser.Password, dmUser.Email, dmUser.Introduction, dmUser.Note, createdAtTime, updatedAtTime)
+	user, err := domain.Reconstruct(dmUser.ID, dmUser.Name, dmUser.Password, dmUser.Email, dmUser.Introduction, dmUser.Note, dmUser.Image, createdAtTime, updatedAtTime)
 	if err != nil {
 		return nil, errors.New("reconstruct processing failed")
 	}

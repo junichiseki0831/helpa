@@ -28,7 +28,7 @@ func (repo *UserRepositoryImpl) FindByName(ctx context.Context, name string) ([]
 		return nil, err
 	}
 
-	var users []domain.User
+	users := make([]domain.User, 0, len(userDMs))
 	for _, userDM := range userDMs {
 		user, err := toDomainUser(userDM)
 		if err != nil {
