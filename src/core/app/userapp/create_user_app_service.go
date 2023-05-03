@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"helpa/src/core/domain/shared/vo"
 	domain "helpa/src/core/domain/userdm"
 )
 
@@ -17,11 +18,11 @@ func NewCreateUserAppService(userRepo domain.UserRepository) *CreateUserAppServi
 
 type CreateUserRequest struct {
 	Name         string
-	Password     string
-	Email        string
+	Password     vo.Password
+	Email        vo.Email
 	Introduction string
 	Note         string
-	Image        string
+	Image        vo.Image
 }
 
 func (app *CreateUserAppService) Exec(ctx context.Context, req *CreateUserRequest) error {
