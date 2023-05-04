@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"encoding/base64"
 	"helpa/src/core/domain/shared/vo"
 	domain "helpa/src/core/domain/userdm"
 )
@@ -18,15 +19,28 @@ func NewCreateUserAppService(userRepo domain.UserRepository) *CreateUserAppServi
 
 type CreateUserRequest struct {
 	Name         string
-	Password     vo.Password
-	Email        vo.Email
+	Password     string
+	Email        string
 	Introduction string
 	Note         string
-	Image        vo.Image
+	Image        string
 }
 
 func (app *CreateUserAppService) Exec(ctx context.Context, req *CreateUserRequest) error {
-	createUser, err := domain.GenWhenCreate(req.Name, req.Password, req.Email, req.Introduction, req.Note, req.Image.Binary())
+	pass, err := vo.NewPassword(req.Password)
+	if err != nil {
+		return err
+	}
+	mail, err := vo.NewEmail(req.Email)
+	if err != nil {
+		return err
+	}
+	imageBase64 := base64.StdEncoding.EncodeToString([]byte(req.Image))
+	img, err := vo.NewImage(imageBase64)
+	if err != nil {
+		return err
+	}
+	createUser, err := domain.GenWhenCreate(req.Name, pass, mail, req.Introduction, req.Note, img)
 	if err != nil {
 		return err
 	}

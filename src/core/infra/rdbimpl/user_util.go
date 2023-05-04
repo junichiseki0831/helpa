@@ -2,8 +2,8 @@ package infra
 
 import (
 	"errors"
-	"helpa/src/core/domain/datamodel"
 	domain "helpa/src/core/domain/userdm"
+	"helpa/src/core/infra/datamodel"
 	"time"
 )
 

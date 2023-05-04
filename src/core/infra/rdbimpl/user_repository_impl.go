@@ -3,9 +3,8 @@ package infra
 import (
 	"context"
 	"encoding/base64"
-	"fmt"
-	"helpa/src/core/domain/datamodel"
 	domain "helpa/src/core/domain/userdm"
+	"helpa/src/core/infra/datamodel"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -47,8 +46,6 @@ func (repo *UserRepositoryImpl) Store(ctx context.Context, user *domain.User) er
     `
 
 	encodedMessage := base64.StdEncoding.EncodeToString(user.Image().Binary())
-	fmt.Println(query, "createdat")
-	fmt.Println(encodedMessage, "createdat")
 
 	_, err := repo.db.Exec(query,
 		user.ID(),
