@@ -2,7 +2,8 @@ package infra
 
 import (
 	"context"
-	_ "embed"
+	"encoding/base64"
+	"fmt"
 	"helpa/src/core/domain/datamodel"
 	domain "helpa/src/core/domain/userdm"
 
@@ -39,23 +40,32 @@ func (repo *UserRepositoryImpl) FindByName(ctx context.Context, name string) ([]
 	return users, nil
 }
 
-// func (repo *UserRepositoryImpl) Store(ctx context.Context, user *domain.User) error {
-// 	db, err := NewDB()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer db.Close()
+func (repo *UserRepositoryImpl) Store(ctx context.Context, user *domain.User) error {
+	query := `
+        INSERT INTO users (id, name, password, email, introduction, note, image, createdAt, updatedAt)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `
 
-// 	_, err = db.Exec(
-// 		"INSERT INTO users (id, name, password, email, introduction, note, image, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-// 		user.ID(), user.Name(), user.Password(), user.Email(), user.Introduction(), user.Note(), user.Image(), user.CreatedAt(), user.UpdatedAt(),
-// 	)
-// 	if err != nil {
-// 		return err
-// 	}
+	encodedMessage := base64.StdEncoding.EncodeToString(user.Image().Binary())
+	fmt.Println(query, "createdat")
+	fmt.Println(encodedMessage, "createdat")
 
-// 	return nil
-// }
+	_, err := repo.db.Exec(query,
+		user.ID(),
+		user.Name(),
+		user.Password(),
+		user.Email(),
+		user.Introduction(),
+		user.Note(),
+		encodedMessage,
+		user.CreatedAt().String(),
+		user.UpdatedAt().String(),
+	)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func NewDB() (*sqlx.DB, error) {
 	db, err := sqlx.Open("mysql", "root:secrets@tcp(db:3306)/helpa")

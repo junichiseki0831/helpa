@@ -26,9 +26,10 @@ type CreateUserRequest struct {
 }
 
 func (app *CreateUserAppService) Exec(ctx context.Context, req *CreateUserRequest) error {
-	createUser, err := domain.GenWhenCreate(req.Name, req.Password, req.Email, req.Introduction, req.Note, req.Image)
+	createUser, err := domain.GenWhenCreate(req.Name, req.Password, req.Email, req.Introduction, req.Note, req.Image.Binary())
 	if err != nil {
 		return err
 	}
+
 	return app.userRepo.Store(ctx, createUser)
 }
