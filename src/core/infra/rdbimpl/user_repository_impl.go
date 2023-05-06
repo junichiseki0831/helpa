@@ -2,7 +2,6 @@ package infra
 
 import (
 	"context"
-	"encoding/base64"
 	domain "helpa/src/core/domain/userdm"
 	"helpa/src/core/infra/datamodel"
 
@@ -45,8 +44,6 @@ func (repo *UserRepositoryImpl) Store(ctx context.Context, user *domain.User) er
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
 
-	encodedMessage := base64.StdEncoding.EncodeToString(user.Image().Binary())
-
 	_, err := repo.db.Exec(query,
 		user.ID(),
 		user.Name(),
@@ -54,7 +51,7 @@ func (repo *UserRepositoryImpl) Store(ctx context.Context, user *domain.User) er
 		user.Email(),
 		user.Introduction(),
 		user.Note(),
-		encodedMessage,
+		user.Image().Base64(),
 		user.CreatedAt().String(),
 		user.UpdatedAt().String(),
 	)

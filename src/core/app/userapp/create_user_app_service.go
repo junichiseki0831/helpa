@@ -23,7 +23,7 @@ type CreateUserRequest struct {
 	Email        string
 	Introduction string
 	Note         string
-	Image        string
+	Image        []byte
 }
 
 func (app *CreateUserAppService) Exec(ctx context.Context, req *CreateUserRequest) error {
@@ -44,6 +44,5 @@ func (app *CreateUserAppService) Exec(ctx context.Context, req *CreateUserReques
 	if err != nil {
 		return err
 	}
-
 	return app.userRepo.Store(ctx, createUser)
 }

@@ -3,9 +3,7 @@ package main
 import (
 	"context"
 	_ "embed"
-	"encoding/base64"
 	app "helpa/src/core/app/userapp"
-	"helpa/src/core/domain/shared/vo"
 	infra "helpa/src/core/infra/rdbimpl"
 	"log"
 
@@ -28,18 +26,13 @@ func main() {
 	// }
 	// fmt.Println(users)
 
-	base64String := base64.StdEncoding.EncodeToString(sampleImagePng)
-
-	pass, _ := vo.NewPassword("12345671")
-	mail, err := vo.NewEmail("john.doe@example.com")
-	img, err := vo.NewImage(base64String)
 	req := &app.CreateUserRequest{
-		Name:         "John Doe",
-		Password:     pass,
-		Email:        mail,
-		Introduction: "Hello, I'm John!",
-		Note:         "Some notes about John",
-		Image:        img,
+		Name:         "John Doe2",
+		Password:     "12345672",
+		Email:        "john.doe2@example.com",
+		Introduction: "Hello, I'm John2!",
+		Note:         "Some notes about John2",
+		Image:        sampleImagePng,
 	}
 
 	err = createUserAppService.Exec(context.Background(), req)
