@@ -2,7 +2,6 @@ package app
 
 import (
 	"context"
-	"encoding/base64"
 	"helpa/src/core/domain/shared/vo"
 	domain "helpa/src/core/domain/userdm"
 )
@@ -23,7 +22,7 @@ type CreateUserRequest struct {
 	Email        string
 	Introduction string
 	Note         string
-	Image        []byte
+	Image        string
 }
 
 func (app *CreateUserAppService) Exec(ctx context.Context, req *CreateUserRequest) error {
@@ -35,8 +34,7 @@ func (app *CreateUserAppService) Exec(ctx context.Context, req *CreateUserReques
 	if err != nil {
 		return err
 	}
-	imageBase64 := base64.StdEncoding.EncodeToString([]byte(req.Image))
-	img, err := vo.NewImage(imageBase64)
+	img, err := vo.NewImage(req.Image)
 	if err != nil {
 		return err
 	}
