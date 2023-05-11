@@ -18,15 +18,27 @@ func NewCreateUserAppService(userRepo domain.UserRepository) *CreateUserAppServi
 
 type CreateUserRequest struct {
 	Name         string
-	Password     vo.Password
-	Email        vo.Email
+	Password     string
+	Email        string
 	Introduction string
 	Note         string
-	Image        vo.Image
+	Image        string
 }
 
 func (app *CreateUserAppService) Exec(ctx context.Context, req *CreateUserRequest) error {
-	createUser, err := domain.GenWhenCreate(req.Name, req.Password, req.Email, req.Introduction, req.Note, req.Image)
+	pass, err := vo.NewPassword(req.Password)
+	if err != nil {
+		return err
+	}
+	mail, err := vo.NewEmail(req.Email)
+	if err != nil {
+		return err
+	}
+	img, err := vo.NewImage(req.Image)
+	if err != nil {
+		return err
+	}
+	createUser, err := domain.GenWhenCreate(req.Name, pass, mail, req.Introduction, req.Note, img)
 	if err != nil {
 		return err
 	}
