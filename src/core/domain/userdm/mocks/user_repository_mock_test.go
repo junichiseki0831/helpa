@@ -2,87 +2,82 @@ package mock_domain_test
 
 import (
 	context "context"
-	_ "embed"
-	"encoding/base64"
-	domain "helpa/src/core/domain/userdm"
+	app "helpa/src/core/app/userapp"
 	mock_domain "helpa/src/core/domain/userdm/mocks"
 	"testing"
-	"time"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )
 
-//go:embed testdata/sample.png
-var sampleImagePng []byte
-
-func TestMockUserRepository_FindByName(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	mockRepo := mock_domain.NewMockUserRepository(ctrl)
+func TestMockUserRepository_Store(t *testing.T) {
 
 	type args struct {
-		title        string
-		id           string
 		name         string
 		password     string
 		email        string
 		introduction string
 		note         string
-		image        []byte
-		createdAt    time.Time
-		updatedAt    time.Time
+		image        string
 	}
+
+	ctrl := gomock.NewController(t)
+	mockRepo := mock_domain.NewMockUserRepository(ctrl)
+
 	for _, tt := range []struct {
-		args  args
-		isErr bool
+		args         args
+		title        string
+		mockRepoFunc func(repo *mock_domain.MockUserRepository)
+		isErr        bool
 	}{
 		{
 			args: args{
-				title:        "正常系",
-				id:           "123",
 				name:         "testUser",
 				password:     "12345671",
 				email:        "test1@test.com",
 				introduction: "testIntroduction",
 				note:         "testNote",
-				image:        sampleImagePng,
-				createdAt:    time.Now(),
-				updatedAt:    time.Now(),
+				image:        "iVBORw0KGgoAAAANSUhEUgAAASwAAADIBAMAAACg8cFmAAAAG1BMVEUAAAD///8fHx9fX18/Pz+fn5/f399/f3+/v7/RRZlbAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACrUlEQVR4nO3Xv2/aQBjGcfdsQsZcgMBo8oN2BJEho02Tdo3bqOoYojZdEynqDBmi/tm9e23wXRyYjkzfj4T9gA336vVxhigCAAAAAAAAAAAAAAAAAAAAAAAA4FPTaVrFz+fN1HQynVUpeSMFcqW1PnqQ+gqtB6mfmhJzTD9LPHsjBdIaPKXqYmBj3p+pvx0/NS3/zNRXndkC9VP6cT72UihtO0D0eG1adJSazTJz0xtu7GZ0aDbDO7P51PVSWPsH5nEoA966aZO4bzbL1GzUvZfCaptC8mtJHTdtZEpIepIex04KLDZlFanEgZs2WppZKT2NPiycFFjrQBpQDVgnq10WGWfuG4oo2ruVZK5/nQIbmstWXonoMXWSHLuT3WThvuHFNEcutb3+dQpL3adR0i/zZFwn2SX2exnF/iU1z3JZ7KK446SgkuK5/tB8XKdqb9vlN8uesqq646SAfr5ouxbF1bIzfKhTVbVp16tm2dk0ySSqvpNClvVv/jvbVpZtl98s6c+OyzKfd9HbWlZydOI3S9mnOy/LDHG9rawony+80/cO36esdnc9YfNx8mrKm8M69U6X22W+nuj5Lqa8pXr1ApHVaXV4srxzz26VPzOqZaHrpNAGm5dTu2aVa9dKIWXsfjmVsjbdfGTNyp12tcpuvsPNxzaobI7ykrBrltuuopxKVXPMfatOgcWdLT9sZM2q27Vfvf4OP2zsN35fZuxw4SYpWdasdbvUcjW6fB9lCatTKGfpaih1bz5czTM3OeXlVZWjX6u3Shp1vRTKaHB+fFLIJP7Sm50WXT8ZcblLUtkp/X1qmWfJ/Ob4qvyzsU7BXJj/Uj0ZUv1opoZEl2wNZ3Otv8mrdQomuVz/8zy9bKZt1GXWSAAAAAAAAAAAAAAAAAAAAAAAAAB8/wEsNXDTxGtkyAAAAABJRU5ErkJggg==",
+			},
+			title: "正常系",
+			mockRepoFunc: func(repo *mock_domain.MockUserRepository) {
+				repo.EXPECT().Store(context.Background(), gomock.Any()).Return(nil)
 			},
 			isErr: false,
 		},
 		{
 			args: args{
-				title:        "異常系",
-				id:           "12900000",
 				name:         "",
-				password:     "12345672",
-				email:        "test2@test.com",
-				introduction: "testIntroduction",
-				note:         "testNote",
-				image:        sampleImagePng,
-				createdAt:    time.Now(),
-				updatedAt:    time.Now(),
+				password:     "",
+				email:        "",
+				introduction: "",
+				note:         "",
+				image:        "",
+			},
+			title: "異常系",
+			mockRepoFunc: func(repo *mock_domain.MockUserRepository) {
+				repo.EXPECT().Store(context.Background(), gomock.Any()).Return("please use 8 characters")
 			},
 			isErr: true,
 		},
 	} {
 		tt := tt
-		t.Run(tt.args.title, func(t *testing.T) {
+		t.Run(tt.title, func(t *testing.T) {
 			t.Parallel()
-			base64String := base64.StdEncoding.EncodeToString(tt.args.image)
-			got, err := domain.GenForTest(tt.args.id, tt.args.name, tt.args.password, tt.args.email, tt.args.introduction, tt.args.note, base64String, tt.args.createdAt, tt.args.updatedAt)
+			request := app.CreateUserRequest{
+				Name:         tt.args.name,
+				Password:     tt.args.password,
+				Email:        tt.args.email,
+				Introduction: tt.args.introduction,
+				Note:         tt.args.note,
+				Image:        tt.args.image,
+			}
+			tt.mockRepoFunc(mockRepo)
+			err := app.NewCreateUserAppService(mockRepo).Exec(context.Background(), &request)
 			if tt.isErr {
-				assert.NotNil(t, err)
-				assert.Empty(t, got)
+				assert.Error(t, err)
 				return
 			}
-
-			mockRepo.EXPECT().FindByName(context.Background(), tt.args.name).Return([]domain.User{*got}, err)
-			users, err := mockRepo.FindByName(context.Background(), tt.args.name)
-			assert.Equal(t, tt.args.name, users[0].Name())
 			assert.Nil(t, err)
 		})
 	}

@@ -41,9 +41,7 @@ func (m *MockUserRepository) FindByName(ctx context.Context, name string) ([]dom
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindByName", ctx, name)
 	ret0, _ := ret[0].([]domain.User)
-	// fmt.Println(ret0, "usersusers")
 	ret1, _ := ret[1].(error)
-	// fmt.Println(ret1, "usersusers22222222")
 	return ret0, ret1
 }
 
