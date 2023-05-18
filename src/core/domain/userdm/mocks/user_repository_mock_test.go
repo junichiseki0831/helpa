@@ -2,6 +2,8 @@ package mock_domain_test
 
 import (
 	context "context"
+	_ "embed"
+	"encoding/base64"
 	"errors"
 	app "helpa/src/core/app/userapp"
 	mock_domain "helpa/src/core/domain/userdm/mocks"
@@ -11,6 +13,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+//go:embed testdata/sample.png
+var sampleImagePng []byte
+
 func TestMockUserRepository_Store(t *testing.T) {
 
 	type args struct {
@@ -19,7 +24,7 @@ func TestMockUserRepository_Store(t *testing.T) {
 		email        string
 		introduction string
 		note         string
-		image        string
+		image        []byte
 	}
 
 	ctrl := gomock.NewController(t)
@@ -38,7 +43,7 @@ func TestMockUserRepository_Store(t *testing.T) {
 				email:        "test1@test.com",
 				introduction: "testIntroduction",
 				note:         "testNote",
-				image:        "iVBORw0KGgoAAAANSUhEUgAAASwAAADIBAMAAACg8cFmAAAAG1BMVEUAAAD///8fHx9fX18/Pz+fn5/f399/f3+/v7/RRZlbAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACrUlEQVR4nO3Xv2/aQBjGcfdsQsZcgMBo8oN2BJEho02Tdo3bqOoYojZdEynqDBmi/tm9e23wXRyYjkzfj4T9gA336vVxhigCAAAAAAAAAAAAAAAAAAAAAAAA4FPTaVrFz+fN1HQynVUpeSMFcqW1PnqQ+gqtB6mfmhJzTD9LPHsjBdIaPKXqYmBj3p+pvx0/NS3/zNRXndkC9VP6cT72UihtO0D0eG1adJSazTJz0xtu7GZ0aDbDO7P51PVSWPsH5nEoA966aZO4bzbL1GzUvZfCaptC8mtJHTdtZEpIepIex04KLDZlFanEgZs2WppZKT2NPiycFFjrQBpQDVgnq10WGWfuG4oo2ruVZK5/nQIbmstWXonoMXWSHLuT3WThvuHFNEcutb3+dQpL3adR0i/zZFwn2SX2exnF/iU1z3JZ7KK446SgkuK5/tB8XKdqb9vlN8uesqq646SAfr5ouxbF1bIzfKhTVbVp16tm2dk0ySSqvpNClvVv/jvbVpZtl98s6c+OyzKfd9HbWlZydOI3S9mnOy/LDHG9rawony+80/cO36esdnc9YfNx8mrKm8M69U6X22W+nuj5Lqa8pXr1ApHVaXV4srxzz26VPzOqZaHrpNAGm5dTu2aVa9dKIWXsfjmVsjbdfGTNyp12tcpuvsPNxzaobI7ykrBrltuuopxKVXPMfatOgcWdLT9sZM2q27Vfvf4OP2zsN35fZuxw4SYpWdasdbvUcjW6fB9lCatTKGfpaih1bz5czTM3OeXlVZWjX6u3Shp1vRTKaHB+fFLIJP7Sm50WXT8ZcblLUtkp/X1qmWfJ/Ob4qvyzsU7BXJj/Uj0ZUv1opoZEl2wNZ3Otv8mrdQomuVz/8zy9bKZt1GXWSAAAAAAAAAAAAAAAAAAAAAAAAAB8/wEsNXDTxGtkyAAAAABJRU5ErkJggg==",
+				image:        sampleImagePng,
 			},
 			title: "正常系",
 			mockRepoFunc: func(repo *mock_domain.MockUserRepository) {
@@ -53,7 +58,7 @@ func TestMockUserRepository_Store(t *testing.T) {
 				email:        "test1@test.com",
 				introduction: "testIntroduction",
 				note:         "testNote",
-				image:        "iVBORw0KGgoAAAANSUhEUgAAASwAAADIBAMAAACg8cFmAAAAG1BMVEUAAAD///8fHx9fX18/Pz+fn5/f399/f3+/v7/RRZlbAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACrUlEQVR4nO3Xv2/aQBjGcfdsQsZcgMBo8oN2BJEho02Tdo3bqOoYojZdEynqDBmi/tm9e23wXRyYjkzfj4T9gA336vVxhigCAAAAAAAAAAAAAAAAAAAAAAAA4FPTaVrFz+fN1HQynVUpeSMFcqW1PnqQ+gqtB6mfmhJzTD9LPHsjBdIaPKXqYmBj3p+pvx0/NS3/zNRXndkC9VP6cT72UihtO0D0eG1adJSazTJz0xtu7GZ0aDbDO7P51PVSWPsH5nEoA966aZO4bzbL1GzUvZfCaptC8mtJHTdtZEpIepIex04KLDZlFanEgZs2WppZKT2NPiycFFjrQBpQDVgnq10WGWfuG4oo2ruVZK5/nQIbmstWXonoMXWSHLuT3WThvuHFNEcutb3+dQpL3adR0i/zZFwn2SX2exnF/iU1z3JZ7KK446SgkuK5/tB8XKdqb9vlN8uesqq646SAfr5ouxbF1bIzfKhTVbVp16tm2dk0ySSqvpNClvVv/jvbVpZtl98s6c+OyzKfd9HbWlZydOI3S9mnOy/LDHG9rawony+80/cO36esdnc9YfNx8mrKm8M69U6X22W+nuj5Lqa8pXr1ApHVaXV4srxzz26VPzOqZaHrpNAGm5dTu2aVa9dKIWXsfjmVsjbdfGTNyp12tcpuvsPNxzaobI7ykrBrltuuopxKVXPMfatOgcWdLT9sZM2q27Vfvf4OP2zsN35fZuxw4SYpWdasdbvUcjW6fB9lCatTKGfpaih1bz5czTM3OeXlVZWjX6u3Shp1vRTKaHB+fFLIJP7Sm50WXT8ZcblLUtkp/X1qmWfJ/Ob4qvyzsU7BXJj/Uj0ZUv1opoZEl2wNZ3Otv8mrdQomuVz/8zy9bKZt1GXWSAAAAAAAAAAAAAAAAAAAAAAAAAB8/wEsNXDTxGtkyAAAAABJRU5ErkJggg==",
+				image:        sampleImagePng,
 			},
 			title: "異常系: Storeがエラーを返す",
 			mockRepoFunc: func(repo *mock_domain.MockUserRepository) {
@@ -68,7 +73,7 @@ func TestMockUserRepository_Store(t *testing.T) {
 				email:        "test1@test.com",
 				introduction: "testIntroduction",
 				note:         "testNote",
-				image:        "iVBORw0KGgoAAAANSUhEUgAAASwAAADIBAMAAACg8cFmAAAAG1BMVEUAAAD///8fHx9fX18/Pz+fn5/f399/f3+/v7/RRZlbAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACrUlEQVR4nO3Xv2/aQBjGcfdsQsZcgMBo8oN2BJEho02Tdo3bqOoYojZdEynqDBmi/tm9e23wXRyYjkzfj4T9gA336vVxhigCAAAAAAAAAAAAAAAAAAAAAAAA4FPTaVrFz+fN1HQynVUpeSMFcqW1PnqQ+gqtB6mfmhJzTD9LPHsjBdIaPKXqYmBj3p+pvx0/NS3/zNRXndkC9VP6cT72UihtO0D0eG1adJSazTJz0xtu7GZ0aDbDO7P51PVSWPsH5nEoA966aZO4bzbL1GzUvZfCaptC8mtJHTdtZEpIepIex04KLDZlFanEgZs2WppZKT2NPiycFFjrQBpQDVgnq10WGWfuG4oo2ruVZK5/nQIbmstWXonoMXWSHLuT3WThvuHFNEcutb3+dQpL3adR0i/zZFwn2SX2exnF/iU1z3JZ7KK446SgkuK5/tB8XKdqb9vlN8uesqq646SAfr5ouxbF1bIzfKhTVbVp16tm2dk0ySSqvpNClvVv/jvbVpZtl98s6c+OyzKfd9HbWlZydOI3S9mnOy/LDHG9rawony+80/cO36esdnc9YfNx8mrKm8M69U6X22W+nuj5Lqa8pXr1ApHVaXV4srxzz26VPzOqZaHrpNAGm5dTu2aVa9dKIWXsfjmVsjbdfGTNyp12tcpuvsPNxzaobI7ykrBrltuuopxKVXPMfatOgcWdLT9sZM2q27Vfvf4OP2zsN35fZuxw4SYpWdasdbvUcjW6fB9lCatTKGfpaih1bz5czTM3OeXlVZWjX6u3Shp1vRTKaHB+fFLIJP7Sm50WXT8ZcblLUtkp/X1qmWfJ/Ob4qvyzsU7BXJj/Uj0ZUv1opoZEl2wNZ3Otv8mrdQomuVz/8zy9bKZt1GXWSAAAAAAAAAAAAAAAAAAAAAAAAAB8/wEsNXDTxGtkyAAAAABJRU5ErkJggg==",
+				image:        sampleImagePng,
 			},
 			title:        "異常系: entityエラー（パスワードが8文字以下）",
 			mockRepoFunc: nil,
@@ -78,13 +83,14 @@ func TestMockUserRepository_Store(t *testing.T) {
 		tt := tt
 		t.Run(tt.title, func(t *testing.T) {
 			t.Parallel()
+			base64String := base64.StdEncoding.EncodeToString(tt.args.image)
 			request := app.CreateUserRequest{
 				Name:         tt.args.name,
 				Password:     tt.args.password,
 				Email:        tt.args.email,
 				Introduction: tt.args.introduction,
 				Note:         tt.args.note,
-				Image:        tt.args.image,
+				Image:        base64String,
 			}
 
 			if tt.mockRepoFunc != nil {

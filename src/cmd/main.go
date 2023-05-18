@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "embed"
 	"helpa/src/core/infra/controllers"
 
 	_ "github.com/go-sql-driver/mysql" // Using MySQL driver
