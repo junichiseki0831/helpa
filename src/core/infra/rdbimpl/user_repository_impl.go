@@ -51,7 +51,7 @@ func (repo *UserRepositoryImpl) Store(ctx context.Context, user *domain.User) er
 		user.Email(),
 		user.Introduction(),
 		user.Note(),
-		user.Image(),
+		user.Image().Base64(),
 		user.CreatedAt().String(),
 		user.UpdatedAt().String(),
 	)
