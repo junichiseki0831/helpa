@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"errors"
+	"helpa/src/support/smperr"
 
 	"github.com/google/uuid"
 )
@@ -14,7 +14,7 @@ func NewUserID() UserID {
 
 func NewUserIDByVal(val string) (UserID, error) {
 	if val == "" {
-		return UserID(""), errors.New("user id must not be empty")
+		return UserID(""), smperr.BadRequest("user id must not be empty")
 	}
 	return UserID(val), nil
 }
