@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"encoding/base64"
 	domain "helpa/src/core/domain/userdm"
+	"helpa/src/support/smperr"
 	"testing"
 	"time"
 
@@ -143,7 +144,7 @@ func TestNewUser(t *testing.T) {
 			base64String := base64.StdEncoding.EncodeToString(tt.args.image)
 			got, err := domain.GenForTest(tt.args.id, tt.args.name, tt.args.password, tt.args.email, tt.args.introduction, tt.args.note, base64String, tt.args.createdAt, tt.args.updatedAt)
 			if tt.isErr {
-				assert.NotNil(t, err)
+				assert.IsType(t, &smperr.BadRequestErr{}, err)
 				assert.Empty(t, got)
 				return
 			}

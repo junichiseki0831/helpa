@@ -2,6 +2,7 @@ package vo_test
 
 import (
 	"helpa/src/core/domain/shared/vo"
+	"helpa/src/support/smperr"
 	"strings"
 	"testing"
 
@@ -32,7 +33,7 @@ func TestNewEmail(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := vo.NewEmail(tt.input)
 			if tt.isErr {
-				assert.NotNil(t, err)
+				assert.IsType(t, &smperr.BadRequestErr{}, err)
 				assert.Empty(t, got)
 				return
 			}

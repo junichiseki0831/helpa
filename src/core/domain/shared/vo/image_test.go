@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"helpa/src/core/domain/shared/vo"
+	"helpa/src/support/smperr"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -47,7 +48,7 @@ func TestNewImage(t *testing.T) {
 			base64String := base64.StdEncoding.EncodeToString(tt.input)
 			got, err := vo.NewImage(base64String)
 			if tt.isErr {
-				assert.NotNil(t, err)
+				assert.IsType(t, &smperr.BadRequestErr{}, err)
 				return
 			}
 			assert.Nil(t, err)
