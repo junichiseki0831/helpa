@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"errors"
 	"helpa/src/core/domain/shared/vo"
+	"helpa/src/support/smperr"
 	"time"
 	"unicode/utf8"
 )
@@ -32,17 +32,17 @@ func newUser(
 ) (*User, error) {
 
 	if name == "" {
-		return nil, errors.New("empty name")
+		return nil, smperr.BadRequest("empty name")
 	} else if nameLen := utf8.RuneCountInString(name); nameLen > 50 {
-		return nil, errors.New("please enter your name within 50 characters")
+		return nil, smperr.BadRequest("please enter your name within 50 characters")
 	}
 
 	if introductionLen := utf8.RuneCountInString(introduction); introductionLen > 500 {
-		return nil, errors.New("please enter your introduction within 500 characters")
+		return nil, smperr.BadRequest("please enter your introduction within 500 characters")
 	}
 
 	if noteLen := utf8.RuneCountInString(note); noteLen > 500 {
-		return nil, errors.New("please enter your note within 500 characters")
+		return nil, smperr.BadRequest("please enter your note within 500 characters")
 	}
 
 	return &User{

@@ -1,7 +1,7 @@
 package vo
 
 import (
-	"errors"
+	"helpa/src/support/smperr"
 	"time"
 )
 
@@ -18,7 +18,7 @@ func (u UpdatedAt) Value() time.Time {
 func NewUpdatedAtByVal(ut time.Time) (UpdatedAt, error) {
 	t := UpdatedAt(ut)
 	if ut.IsZero() {
-		return UpdatedAt(time.Time{}), errors.New("error")
+		return UpdatedAt(time.Time{}), smperr.BadRequest("invalid time provided")
 	}
 	return t, nil
 }
