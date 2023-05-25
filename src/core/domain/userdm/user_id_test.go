@@ -29,6 +29,11 @@ func TestNewUserIDByVal(t *testing.T) {
 			input: "",
 			isErr: true,
 		},
+		{
+			name:  "異常系: 引数の文字列が無効なUUIDの長さ",
+			input: "aabbddd",
+			isErr: true,
+		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := domain.NewUserIDByVal(tt.input)

@@ -16,6 +16,12 @@ func NewUserIDByVal(val string) (UserID, error) {
 	if val == "" {
 		return UserID(""), smperr.BadRequest("user id must not be empty")
 	}
+
+	_, err := uuid.Parse(val)
+	if err != nil {
+		return UserID(""), smperr.BadRequest("invalid UUID length")
+	}
+
 	return UserID(val), nil
 }
 
