@@ -25,7 +25,7 @@ func TestNewUserIDByVal(t *testing.T) {
 			input: "7b8a6b7a-3831-4f57-94c9-29f0df3a68f9",
 		},
 		{
-			name:  "異常系: 引数がtime.IsZero",
+			name:  "異常系: 引数が空文字",
 			input: "",
 			isErr: true,
 		},
