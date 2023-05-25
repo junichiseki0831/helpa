@@ -2,6 +2,7 @@ package vo_test
 
 import (
 	"helpa/src/core/domain/shared/vo"
+	"helpa/src/support/smperr"
 	"testing"
 	"time"
 
@@ -45,7 +46,7 @@ func TestNewCreatedAtByVal(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := vo.NewCreatedAtByVal(tt.input)
 			if tt.isErr {
-				assert.NotNil(t, err)
+				assert.IsType(t, &smperr.BadRequestErr{}, err)
 				assert.Empty(t, got)
 				return
 			}
