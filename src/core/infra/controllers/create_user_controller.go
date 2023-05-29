@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 )
 
 type createUserController struct {
@@ -16,16 +17,10 @@ func newCreateUserController() *createUserController {
 	return &createUserController{}
 }
 
-func (c *createUserController) createUserHandler(ctx *gin.Context) {
+func (c *createUserController) createUserHandler(ctx *gin.Context, db *sqlx.DB) {
 	var user app.CreateUserRequest
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": smperr.BadRequest("Failed to bind JSON data")})
-		return
-	}
-
-	db, err := infra.NewDB()
-	if err != nil {
-		ctx.Error(smperr.Internalf("Failed to initialize database: %w", err))
 		return
 	}
 
