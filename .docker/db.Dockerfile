@@ -1,4 +1,4 @@
-FROM mysql:8.0
+FROM mysql:8-debian
 EXPOSE 3306
 #日本語入力設定
 RUN apt-get update -y && \
