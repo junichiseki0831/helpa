@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN go install github.com/cosmtrek/air@latest
 
-RUN apt update && apt-get install git
+RUN apt update && apt install git
 COPY ./go.mod ./go.sum ./
 RUN go mod download
 COPY ./ ./

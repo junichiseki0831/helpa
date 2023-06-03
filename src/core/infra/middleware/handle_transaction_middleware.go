@@ -1,10 +1,8 @@
 package middleware
 
 import (
-	"errors"
 	"helpa/src/support/smperr"
 	"log"
-	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -34,7 +32,7 @@ func isTransactionMethod(method string) bool {
 func NewDB() (*sqlx.DB, error) {
 	db, err := sqlx.Open("mysql", "root:secrets@tcp(db:3306)/helpa")
 	if err != nil {
-		return nil, smperr.Internalf("Failed to initialize database: %w", err)
+		return nil, smperr.Internalf("Failed to initialize database: %+v", err)
 	}
 	return db, nil
 }
@@ -48,7 +46,7 @@ func DBInterceptor(db *sqlx.DB) gin.HandlerFunc {
 			log.Println("start transaction")
 			transaction, err := db.Beginx()
 			if err != nil {
-				c.AbortWithError(http.StatusInternalServerError, errors.New("transaction error"))
+				c.Error(err)
 				return
 			}
 			tx = transaction
@@ -65,12 +63,11 @@ func DBInterceptor(db *sqlx.DB) gin.HandlerFunc {
 				tx.Rollback()
 			}
 			log.Println("rollback")
-			c.AbortWithError(http.StatusInternalServerError, errors.New("fail to handle transaction"))
 			return
 		}
 		if tx != nil {
 			if err := tx.Commit(); err != nil {
-				c.AbortWithError(http.StatusInternalServerError, errors.New("fail to handle transaction commit"))
+				c.Error(smperr.Internal("fail to handle transaction commit"))
 				return
 			}
 			log.Println("committed")
