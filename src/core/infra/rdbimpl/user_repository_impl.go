@@ -61,11 +61,3 @@ func (repo *UserRepositoryImpl) Store(ctx context.Context, user *domain.User) er
 	}
 	return nil
 }
-
-func NewDB() (*sqlx.DB, error) {
-	db, err := sqlx.Open("mysql", "root:secrets@tcp(db:3306)/helpa")
-	if err != nil {
-		return nil, smperr.Internalf("Failed to initialize database: %w", err)
-	}
-	return db, nil
-}
